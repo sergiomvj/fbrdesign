@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FBR-Design | Creative Operations Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07111e;
+      --bg-2: #0c1728;
+      --bg-3: #122033;
+      --panel: rgba(16, 26, 42, 0.8);
+      --panel-strong: #162437;
+      --line: rgba(155, 176, 202, 0.14);
+      --text: #eef4ff;
+      --muted: #9bb0ca;
+      --soft: #c8d6eb;
+      --brand: #f97316;
+      --brand-soft: rgba(249, 115, 22, 0.16);
+      --brand-faint: rgba(249, 115, 22, 0.08);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #38bdf8;
+      --radius: 24px;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.14), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.08), transparent 24%),
+        linear-gradient(180deg, #060d17 0%, #091322 45%, #07111e 100%);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 44px 44px;
+      opacity: 0.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 17, 30, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.95), rgba(249, 115, 22, 0.2));
+      box-shadow: 0 18px 40px rgba(249, 115, 22, 0.22);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: "Outfit", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-copy span {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .hero {
+      padding: 88px 0 56px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--brand-soft);
+      background: var(--brand-faint);
+      color: var(--brand);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(3.2rem, 7vw, 6rem);
+      line-height: 0.94;
+      letter-spacing: -0.06em;
+      max-width: 760px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--brand);
+    }
+
+    .hero p {
+      margin-top: 22px;
+      max-width: 700px;
+      color: var(--soft);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .hero-panel {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(20, 33, 53, 0.92), rgba(13, 23, 40, 0.88));
+      box-shadow: var(--shadow);
+    }
+
+    .metric-label {
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      font-size: 0.68rem;
+      margin-bottom: 18px;
+    }
+
+    .metric-value {
+      font-family: "Outfit", sans-serif;
+      font-size: 3.1rem;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 12px;
+    }
+
+    .metric-sub {
+      color: var(--soft);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 0.78rem;
+      color: var(--soft);
+    }
+
+    section {
+      padding: 44px 0 72px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+      margin-bottom: 28px;
+      align-items: end;
+    }
+
+    .section-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--brand);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .section-copy {
+      color: var(--soft);
+      line-height: 1.85;
+      max-width: 760px;
+    }
+
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      padding: 24px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(20, 31, 49, 0.88), rgba(13, 23, 40, 0.82));
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.16rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--soft);
+      line-height: 1.78;
+      font-size: 0.95rem;
+    }
+
+    .card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .card ul li::before {
+      content: "+";
+      color: var(--brand);
+      margin-right: 8px;
+    }
+
+    .lane {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lane-step {
+      min-height: 190px;
+      padding: 22px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(12, 23, 40, 0.82);
+    }
+
+    .lane-step strong {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--brand);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      margin-bottom: 16px;
+    }
+
+    .lane-step h4 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .lane-step p {
+      color: var(--soft);
+      line-height: 1.75;
+      font-size: 0.92rem;
+    }
+
+    .highlight {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .kpi-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .kpi-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 0.92rem;
+    }
+
+    .kpi-item span:last-child {
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    footer {
+      padding: 38px 0 60px;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-top: 1px solid var(--line);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero,
+      .section-head,
+      .highlight {
+        grid-template-columns: 1fr;
+      }
+
+      .lane { grid-template-columns: 1fr 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(100% - 28px, 1180px); }
+      .nav-inner { align-items: flex-start; gap: 18px; flex-direction: column; }
+      .nav-links { flex-wrap: wrap; gap: 14px; }
+      .grid-3,
+      .grid-4,
+      .lane { grid-template-columns: 1fr; }
+      .hero { padding-top: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand-lockup">
+        <div class="brand-mark"></div>
+        <div class="brand-copy">
+          <strong>FBR-Design</strong>
+          <span>Creative Operations Hub</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#vision">Vision</a></li>
+        <li><a href="#modules">Modules</a></li>
+        <li><a href="#flow">Flow</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">FBR Ecosystem • Design Core System</div>
+        <h1>The creative layer that gives <em>form, consistency and velocity</em> to the entire FBR ecosystem.</h1>
+        <p>
+          `FBR-Design` centralizes briefing, production, review, approval, versioning, delivery and reuse of visual assets.
+          It is not a generic queue. It is the creative operating system behind campaigns, branding, institutional materials and reusable deliverables across every FBR project.
+        </p>
+      </div>
+      <aside class="hero-panel">
+        <div class="metric-label">Strategic role</div>
+        <div class="metric-value">1 hub</div>
+        <div class="metric-sub">
+          One structured visual operation for sales campaigns, branding systems, editorial support, institutional materials and cross-team creative production.
+        </div>
+        <div class="chip-row">
+          <div class="chip">Brief Intake</div>
+          <div class="chip">Creative Queue</div>
+          <div class="chip">Review Gates</div>
+          <div class="chip">Asset Library</div>
+          <div class="chip">Brand Systems</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="vision">
+      <div class="section-head">
+        <div>
+          <div class="section-tag">01 • Product Vision</div>
+          <h2 class="section-title">A studio platform, not a task board.</h2>
+        </div>
+        <p class="section-copy">
+          The platform exists to organize creative demand as business infrastructure: every request carries context, every deliverable carries lineage, every approval carries accountability, and every final asset can return to the ecosystem as reusable visual capital.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>Creative governance</h3>
+          <p>Requests move through defined workflow gates with review history, explicit approvals, SLA awareness and auditability.</p>
+        </article>
+        <article class="card">
+          <h3>Brand consistency at scale</h3>
+          <p>Templates, guidelines, collections and brand systems keep every project aligned without slowing production.</p>
+        </article>
+        <article class="card">
+          <h3>Reusable outputs</h3>
+          <p>Deliverables are stored as reusable assets with versions, derivations, tags, campaign context and future retrieval value.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="section-head">
+        <div>
+          <div class="section-tag">02 • Core Modules</div>
+          <h2 class="section-title">Built around the real creative lifecycle.</h2>
+        </div>
+        <p class="section-copy">
+          Each module supports one layer of the visual operation, from intake to delivery, while preserving the institutional tone expected from a central FBR system.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <article class="card">
+          <h3>Brief Intake</h3>
+          <ul>
+            <li>Multiorigin requests</li>
+            <li>Context and references</li>
+            <li>Priority and campaign framing</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Creative Queue</h3>
+          <ul>
+            <li>SLA, urgency and risk</li>
+            <li>Routing and assignment</li>
+            <li>Workload visibility</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Production Pipeline</h3>
+          <ul>
+            <li>Tasks and dependencies</li>
+            <li>Deliverables and previews</li>
+            <li>Version progression</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Review & Approval</h3>
+          <ul>
+            <li>Feedback threads</li>
+            <li>Approval gates</li>
+            <li>Structured rework</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Asset Library</h3>
+          <ul>
+            <li>Search and taxonomy</li>
+            <li>Lineage and derivations</li>
+            <li>Reuse intelligence</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Templates & Brands</h3>
+          <ul>
+            <li>Visual systems</li>
+            <li>Guidelines and kits</li>
+            <li>Brand governance</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Delivery Center</h3>
+          <ul>
+            <li>Final packages</li>
+            <li>Acceptance tracking</li>
+            <li>Cross-module handoff</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Creative Analytics</h3>
+          <ul>
+            <li>Throughput and lead time</li>
+            <li>Rework and approvals</li>
+            <li>Executive insight</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="section-head">
+        <div>
+          <div class="section-tag">03 • Main Flow</div>
+          <h2 class="section-title">From brief to reusable asset.</h2>
+        </div>
+        <p class="section-copy">
+          The system structures the visual lifecycle as an operational sequence, not a loose collection of files and comments.
+        </p>
+      </div>
+
+      <div class="lane">
+        <article class="lane-step">
+          <strong>Step 01</strong>
+          <h4>Intake</h4>
+          <p>Requests arrive from internal teams and FBR systems with brand, campaign, objective and urgency context.</p>
+        </article>
+        <article class="lane-step">
+          <strong>Step 02</strong>
+          <h4>Triage</h4>
+          <p>The platform classifies the demand, assigns priority, selects the right workflow and opens the request.</p>
+        </article>
+        <article class="lane-step">
+          <strong>Step 03</strong>
+          <h4>Production</h4>
+          <p>Creative tasks, previews, references and deliverables evolve with explicit statuses and dependency control.</p>
+        </article>
+        <article class="lane-step">
+          <strong>Step 04</strong>
+          <h4>Review</h4>
+          <p>Feedback becomes structured history, enabling rework without losing decision context or version traceability.</p>
+        </article>
+        <article class="lane-step">
+          <strong>Step 05</strong>
+          <h4>Delivery & Library</h4>
+          <p>Final outputs are approved, delivered, archived and indexed as reusable visual assets for future requests.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="integrations">
+      <div class="section-head">
+        <div>
+          <div class="section-tag">04 • Ecosystem Integrations</div>
+          <h2 class="section-title">Designed to orbit every FBR operation.</h2>
+        </div>
+        <p class="section-copy">
+          `FBR-Design` becomes more valuable as it connects to the rest of the ecosystem, especially the mature commercial operation already evolving inside `FBR-Sales`.
+        </p>
+      </div>
+
+      <div class="highlight">
+        <article class="card">
+          <h3>Integration priorities</h3>
+          <ul>
+            <li>`FBR-Sales`: campaigns, bundles, proposals, media kits and reusable commercial assets</li>
+            <li>`FBR-MKT`: branding, positioning, campaign systems and strategic materials</li>
+            <li>`FBR-Video`: hybrid pieces, thumbnail systems and audiovisual identity support</li>
+            <li>`FBR-Redacao`: copy-dependent creative production and editorial materials</li>
+            <li>`FBR-Finance`: cost, vendors and external production traceability</li>
+            <li>`FBR-Dev`: storage, automations, AI assistance and integrations</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Operational outcomes</h3>
+          <div class="kpi-list">
+            <div class="kpi-item"><span>Campaign creative traceability</span><span>enabled</span></div>
+            <div class="kpi-item"><span>Versioned institutional materials</span><span>native</span></div>
+            <div class="kpi-item"><span>Asset reuse across modules</span><span>structured</span></div>
+            <div class="kpi-item"><span>Approval history and accountability</span><span>auditable</span></div>
+            <div class="kpi-item"><span>Future AI-assisted briefing</span><span>ready</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">FBR-Design • Internal creative operations platform • Concept presentation 2026</div>
+  </footer>
+</body>
+</html>

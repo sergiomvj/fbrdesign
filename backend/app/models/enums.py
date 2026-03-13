@@ -35,6 +35,16 @@ class DesignRequestStatus(str, Enum):
     CANCELLED = "cancelled"
 
 
+class CreativeTaskStatus(str, Enum):
+    PENDING = "pending"
+    READY = "ready"
+    IN_PROGRESS = "in_progress"
+    BLOCKED = "blocked"
+    IN_REVIEW = "in_review"
+    DONE = "done"
+    CANCELLED = "cancelled"
+
+
 class DeliverableStatus(str, Enum):
     NOT_STARTED = "not_started"
     DRAFT_READY = "draft_ready"

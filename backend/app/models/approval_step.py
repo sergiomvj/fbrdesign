@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, func
@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
+from app.models.db_enum import enum_type
 from app.models.enums import ApprovalStatus
 
 
@@ -21,7 +22,7 @@ class ApprovalStep(Base):
     step_name: Mapped[str] = mapped_column(String(120), nullable=False)
     approver_role: Mapped[str | None] = mapped_column(String(80))
     approver_name: Mapped[str | None] = mapped_column(String(150))
-    status: Mapped[ApprovalStatus]
+    status: Mapped[ApprovalStatus] = mapped_column(enum_type(ApprovalStatus, "approval_status_enum"), nullable=False)
     decision_reason: Mapped[str | None] = mapped_column(Text)
     due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

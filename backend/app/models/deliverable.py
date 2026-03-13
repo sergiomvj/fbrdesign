@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import DateTime, ForeignKey, String, func
@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
+from app.models.db_enum import enum_type
 from app.models.enums import DeliverableStatus, DeliverableType
 
 
@@ -14,11 +15,11 @@ class Deliverable(Base):
 
     id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid4)
     design_request_id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), ForeignKey("design_requests.id"))
-    deliverable_type: Mapped[DeliverableType]
+    deliverable_type: Mapped[DeliverableType] = mapped_column(enum_type(DeliverableType, "deliverable_type_enum"), nullable=False)
     name: Mapped[str] = mapped_column(String(180), nullable=False)
     format: Mapped[str] = mapped_column(String(60), nullable=False)
     channel: Mapped[str | None] = mapped_column(String(120))
-    status: Mapped[DeliverableStatus]
+    status: Mapped[DeliverableStatus] = mapped_column(enum_type(DeliverableStatus, "deliverable_status_enum"), nullable=False)
     delivery_channel: Mapped[str | None] = mapped_column(String(120))
     final_version_id: Mapped[UUID | None] = mapped_column(PGUUID(as_uuid=True))
     approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

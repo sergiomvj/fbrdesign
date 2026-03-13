@@ -1,4 +1,4 @@
-﻿import type { SourceSystem } from "./brief";
+import type { SourceSystem } from "./brief";
 
 export type RequestPriority = "low" | "medium" | "high" | "urgent";
 
@@ -40,12 +40,48 @@ export interface DesignRequest {
   updated_at: string;
 }
 
+export interface DesignRequestCreateInput {
+  brief_id: string;
+  project_id: string;
+  brand_id: string;
+  campaign_id?: string | null;
+  source_system: SourceSystem;
+  source_reference_id?: string | null;
+  request_type: string;
+  priority: RequestPriority;
+  status: DesignRequestStatus;
+  current_stage: string;
+  owner_team?: string | null;
+  assigned_lead_name?: string | null;
+  risk_level?: string | null;
+  sla_due_at?: string | null;
+}
+
+export interface DesignRequestUpdateInput {
+  priority?: RequestPriority;
+  status?: DesignRequestStatus;
+  current_stage?: string;
+  owner_team?: string | null;
+  assigned_lead_name?: string | null;
+  risk_level?: string | null;
+  sla_due_at?: string | null;
+}
+
 export interface DesignRequestListResponse {
   data: DesignRequest[];
   meta: {
     count: number;
     limit: number;
     offset: number;
+  };
+  error: null;
+}
+
+export interface DesignRequestCreateResponse {
+  data: DesignRequest;
+  meta: {
+    count: number;
+    [key: string]: number | string;
   };
   error: null;
 }
